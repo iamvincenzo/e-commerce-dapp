@@ -1,5 +1,7 @@
 # e-CommerceDApp
 
+### Autori: Vincenzo Fraello & Lorenzo Di Palma
+
 Specifiche progetto:
 
 Creare una Decentralized application (DApp) per un sistema di vendita di prodotti online:

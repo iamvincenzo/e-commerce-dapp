@@ -1,6 +1,7 @@
 # e-CommerceDApp
 
 Specifiche progetto:
+
 Creare una Decentralized application (DApp) per un sistema di vendita di prodotti online:
 - I prodotti online in questione sono: Libri.
 - Il sistema deve essere accessibile agli utenti tramite un sito web dinamico.
@@ -36,3 +37,39 @@ Creare una Decentralized application (DApp) per un sistema di vendita di prodott
     - Ritirare gli Ether dallo Smart Contract (deposito del conto del proprietario del negozio).
     - Visualizzare gli ordini effettuati tramite lo Smart Contract.
     - Spedire gli ordini effettuati tramite lo Smart Contract.
+
+Specifiche Tecniche:
+
+• e-Commerce con interfaccia web dinamica realizzato con (pattern MVC):
+  
+  - Model:
+    - JSON
+  
+  - View:
+    - Framework Bootstrap
+    - HTML
+    - CSS
+ 
+ - Controller:
+    - PHP
+    - Slim Framework
+    - JavaScript
+    - JQuery
+    - DataTables
+    - JQuery Pagination plugin
+    - Web3.js
+    - MetaMask
+    
+  - MySQL
+  
+  - Apache Web Server
+
+• Smart Contract Ethereum utilizzato per effettuare il pagamento di prodotti e per tenere traccia di chi compra cosa.
+Realizzato con:
+ - Truffle
+ - Ganache
+ - Solidity
+ - OpenZeppelin (standard per la sicurezza)
+
+• Editor di testo:
+ - Visual Studio Code

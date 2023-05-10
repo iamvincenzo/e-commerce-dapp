@@ -73,7 +73,7 @@ Technical Specifications:
  - OpenZeppelin (security standard)
 
 • Text Editor:
- - Visual Studio Code"
+ - Visual Studio Code
 
 # e-CommerceDApp (ITA)
 

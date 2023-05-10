@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: profileETH.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: profileETH.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * 
+ * @author Vincenzo Fraello (299647) - Lorenzo Di Palma (299636) 
+ *
+ */
+
+import { connectBlockChain } from './getSmartContractInfo.js';
+
+
+/**
+ * Questa funzione viene utilizzata per verificare che l'utente che sta accedendo
+ * alle informazioni del profilo sugli ordini effettuati con lo Smart Contract 
+ * e del bilancio sia effettivamente il cliente.
+ */
+
+window.verifyIdentity = function () {
+
+    $(document).ready(function () {
+
+        var addressETH = $('#addressETHlog').val();
+
+        var privateKey = $('.privateKey').val();
+
+        if (privateKey.length &lt; 64 || privateKey == '') return;
+
+        var addrFromPrK = web3.eth.accounts.privateKeyToAccount(privateKey).address;
+
+        if (addressETH == addrFromPrK) {
+
+            alert('Sei connesso con Ethereum.');
+        }
+
+        else {
+
+            alert('Non sei connesso ad Ethereum.');
+        }
+    });
+}
+
+/**
+ * Il codice JavaScript verrà eseguito solamente dopo che il documento è pronto
+ */
+
+$(document).ready(function () {
+
+    // connessione alla blockchain
+
+    var connection = connectBlockChain("includes/PHP/getSmartContractInfo.inc.php");
+    var web3 = connection[0];
+    var contract = connection[1];
+
+    var addressETH;
+
+    $.ajax({ // richiesta AJAX utilizzata per ottenere l'indirizzo Ethereum del cliente
+
+        url: "includes/PHP/getAddressETH.inc.php",
+
+        success: function (result) {
+
+            addressETH = JSON.parse(result);
+
+            contract.methods.getOrders(addressETH.trim()).call({ from: addressETH }).then(function (content) { // invoca il metodo dello Smart Contract che permette di ottenere gli acquisti effettuati dal cliente
+
+                for (var i = 0; i &lt; content.length; i++) { // inserimento dei dati dell'oggetto JavaScript all'interno di array JavaScript
+    
+                    var c = (content[i].isShipped) ? "Spedito" : "Non spedito";
+
+                     t.row.add([
+
+                        content[i].id, 
+                        content[i].content,
+                        new Date(content[i].purchaseDate * 1000).toLocaleString(),
+                        parseFloat(web3.utils.fromWei(content[i].eth, 'ether')).toFixed(2), 
+                        c
+
+                    ]).draw();
+                }
+            });
+        },
+
+        error: function (xhr, thrownError) {
+
+            console.log(xhr.status);
+            console.log(thrownError);
+            window.location.href = "stmtfailed.php";
+        },
+
+        async: true //false
+    });
+
+    $('#viewBalanceBtn').click(function () { // azione innescata quando il cliente clicca sul tasto visualizza bilancio
+
+        web3.eth.getBalance(addressETH).then(function (val) { // https://stackoverflow.com/questions/29516390/how-to-access-the-value-of-a-promise
+
+            $("#viewBalanceBtn span").html($("#viewBalanceBtn span").html() == 'Visualizza bilancio' ? 'Nascondi bilancio' : 'Visualizza bilancio');
+
+            var x = document.getElementById('balanceAfter');
+
+            if (x.style.display === 'none') {
+
+                x.style.display = 'block';
+            }
+
+            else if (x.style.display === 'block') {
+
+                x.style.display = 'none';
+            }
+
+            document.getElementById("balanceAfter").innerHTML = parseFloat(web3.utils.fromWei(val, 'ether')).toFixed(2) + " ETH";
+            $('#balanceAfter').append('&lt;img src="img/ethereum-eth-logo-animated.gif" alt="logo ethereum" width="70px">');
+
+        });
+    });
+
+    var t = $('#tableShowETH').DataTable({
+
+        "lengthMenu": [1, 2, 3],
+        "iDisplayLength": 2,
+        
+        "columnDefs": [
+            { data: 'id' },
+            { data: 'content' },
+            { data: 'purchaseDate' },
+            { data: 'eth' },
+            { data: 'isShipped' }
+        ]
+    });   
+
+    $(document).on('click', '#bindETH', function () {
+
+        if (($('#addressETHlog').val() == '') || ($('.privateKey').val() == '') ||
+            ($('.privateKey').val().length) &lt; 64 || ($('#addressETHlog').val().length &lt; 42)) {
+
+            alert('Credenziali fornite non corrette.');
+        }
+    });
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_contractBalance">_contractBalance</a></li><li><a href="global.html#_gasLimit">_gasLimit</a></li><li><a href="global.html#_gasPrice">_gasPrice</a></li><li><a href="global.html#_ownerBalance">_ownerBalance</a></li><li><a href="global.html#addToCart">addToCart</a></li><li><a href="global.html#buy">buy</a></li><li><a href="global.html#cart">cart</a></li><li><a href="global.html#cartBadgeCounter">cartBadgeCounter</a></li><li><a href="global.html#cartDiComodo">cartDiComodo</a></li><li><a href="global.html#connectBlockChain">connectBlockChain</a></li><li><a href="global.html#connection">connection</a></li><li><a href="global.html#elementPerPage">elementPerPage</a></li><li><a href="global.html#emptyInput">emptyInput</a></li><li><a href="global.html#ethBalance">ethBalance</a></li><li><a href="global.html#ethValue">ethValue</a></li><li><a href="global.html#fillCards">fillCards</a></li><li><a href="global.html#getSmartContractInfo">getSmartContractInfo</a></li><li><a href="global.html#loadCart">loadCart</a></li><li><a href="global.html#myObj">myObj</a></li><li><a href="global.html#okBalnceThenBuy">okBalnceThenBuy</a></li><li><a href="global.html#smartContractTransaction">smartContractTransaction</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Mar 18 2021 00:27:15 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
